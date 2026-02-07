@@ -1,0 +1,97 @@
+/* Animations & Motion System */
+
+/* Page load: fade-in + translateY */
+.page-fade-in {
+  animation: fadeInUp 0.3s ease-in-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Card hover: translateY(-6px) */
+.card-hover-lift:hover {
+  transform: translateY(-6px);
+}
+
+/* Button hover: scale(1.05) */
+.btn-hover-scale:hover {
+  transform: scale(1.05);
+}
+
+/* Icon hover: rotate or translate */
+.icon-hover-rotate:hover {
+  transform: rotate(5deg);
+}
+
+.icon-hover-translate:hover {
+  transform: translateX(4px);
+}
+
+/* Task complete: scale down + opacity transition */
+.task-complete-animation {
+  animation: scaleDownOpacity 0.3s ease-in-out;
+}
+
+@keyframes scaleDownOpacity {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(0.95);
+    opacity: 0.5;
+  }
+}
+
+/* Task delete: fade + slide-out animation */
+.task-delete-animation {
+  animation: fadeSlideOut 0.3s ease-in-out forwards;
+}
+
+@keyframes fadeSlideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+/* Pulse animation for buttons */
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* All animations must use duration: 300ms and easing: ease-in-out */
+.duration-300 {
+  transition-duration: 300ms;
+}
+
+.ease-in-out {
+  transition-timing-function: ease-in-out;
+}
+
+.transition-all {
+  transition-property: all;
+  transition-duration: 300ms;
+  transition-timing-function: ease-in-out;
+}
