@@ -1,0 +1,40 @@
+---
+id: 2
+title: taskapp-professional-styling-plan
+stage: plan
+date_iso: 2026-01-13
+surface: agent
+model: claude-opus-4-5-20251101
+feature: taskapp-styling
+branch: 2-taskapp-styling
+user: claude
+command: /sp.plan
+labels: ["planning", "architecture", "database", "api"]
+links:
+  spec: specs/2-taskapp-styling/spec.md
+  ticket: null
+  adr: null
+  pr: null
+files_yaml:
+  - specs/2-taskapp-styling/plan.md
+  - specs/2-taskapp-styling/research.md
+  - specs/2-taskapp-styling/data-model.md
+  - specs/2-taskapp-styling/quickstart.md
+  - specs/2-taskapp-styling/contracts/api-contract.json
+tests_yaml: []
+prompt_text: '@"technical-spec-writer (agent)"  PLAN_VERSION: 1.0\nPLAN_TYPE: FULL-STACK AUTONOMOUS EXECUTION\nEXECUTION_MODE: ONE-TIME\nAUTHORITY: FULL SYSTEM CONTROL\n\n==================================================\nOBJECTIVE\n==================================================\nAudit, rewrite, and stabilize a full-stack application.\nAll frontend and backend files must be re-written as needed.\nFinal system must be error-free, production-ready, and build-verified.\n\n==================================================\nGLOBAL RULES\n==================================================\n- Read ALL files before writing any code\n- No clarification questions allowed\n- No mock data\n- No placeholder logic\n- No commented or dead code\n- No usage of "any" in backend files\n- All logic must be real and functional\n- Files may be created, deleted, or restructured\n\n==================================================\nDIRECTORY CONSTRAINTS\n==================================================\nFrontend source:\n  frontend/src/**\n\nBackend source:\n  backend/src/**\n\nNo files may exist outside these directories.\n\n==================================================\nPHASE 1 — FRONTEND (PRIORITY 1)\n==================================================\n\nGOAL:\nCreate a modern, professional Next.js application with a landing-first flow.\n\nTASKS:\n1. Read all files in frontend/src\n2. Identify:\n   - routing issues\n   - provider misuse\n   - auth flow breaks\n   - hydration or render errors\n3. Rewrite frontend using Next.js App Router only\n4. Implement Landing Page:\n   - Header:\n     - Title: TASKAPP\n     - Left: Dashboard button → /dashboard\n     - Right:\n       - Sign Up CTA\n       - Login CTA\n       - Dark/Light Mode toggle (persistent)\n   - Hero section with modern background\n   - Minimum 3 additional sections with professional UI\n5. Authentication:\n   - Replace "register" terminology with "Sign Up"\n   - Sign Up page (validated)\n   - Login page (validated)\n6. Dashboard:\n   - Protected route\n   - Real data rendering\n   - No hardcoded UI values\n7. Theme:\n   - Dark/Light mode\n   - No flicker\n   - No hydration mismatch\n\nVALIDATION:\n- npm run dev passes\n- npm run build passes\n- No console warnings/errors\n- Navigation fully functional\n\n==================================================\nPHASE 2 — BACKEND\n==================================================\n\nGOAL:\nStable backend with clean authentication and API contracts.\n\nTASKS:\n1. Read all files in backend/src\n2. Fix:\n   - API routing\n   - auth/session logic\n   - server crashes\n3. Ensure endpoints exist and work:\n   - /api/auth/$session/get\n   - /api/auth/$session/listen\n   - /api/auth/name/*\n4. Enforce:\n   - Strict typing\n   - No "any"\n   - Clean error handling\n5. Implement CORS correctly for frontend access\n\nVALIDATION:\n- Backend server starts cleanly\n- Endpoints return valid JSON\n- No 500 errors\n- Auth/session works\n\n==================================================\nPHASE 3 — FRONTEND ↔ BACKEND INTEGRATION\n==================================================\n\nGOAL:\nFully connected system with real data flow.\n\nTASKS:\n1. Connect frontend API calls to backend\n2. Fix:\n   - Base URLs\n   - Credential handling\n   - CORS issues\n3. Test:\n   - Sign Up → Login → Dashboard\n   - Route protection\n   - Data persistence\n\nVALIDATION:\n- No network errors\n- No CORS blocks\n- UI reflects real backend data\n\n==================================================\nPHASE 4 — FINAL QUALITY GATE\n==================================================\n\nMANDATORY CHECKS:\n- npm install passes\n- npm run dev passes\n- npm run build passes\n- No console errors\n- No React warnings\n- All pages functional\n\nExecution ends ONLY when all checks pass.\n✅ 2️⃣ sp.plan — WITH PostgreSQL + Prisma + SQLModel\nThis is the same plan, enhanced with database enforcement.\n\ndiff\nCopy code\nPLAN_VERSION: 1.1\nPLAN_TYPE: FULL-STACK + DATABASE\nDATABASE: PostgreSQL\nEXECUTION_MODE: ONE-TIME\nAUTHORITY: FULL SYSTEM CONTROL\n\n==================================================\nDATABASE STACK\n==================================================\nFrontend ORM: Prisma\nBackend ORM: SQLModel\nDatabase: PostgreSQL\n\n==================================================\nDATABASE RULES\n==================================================\n- Schema must be explicitly defined\n- No dynamic fields\n- No implicit typing\n- Dates stored as:\n  - PostgreSQL TIMESTAMP\n  - ISO 8601 on API boundaries\n- No mock data allowed\n\n==================================================\nREQUIRED ENTITIES\n==================================================\n\nUser:\n- id (UUID, PK)\n- email (unique, indexed)\n- password_hash\n- created_at\n\nTask:\n- id (UUID, PK)\n- title\n- description\n- status\n- due_date\n- created_at\n- updated_at\n- user_id (FK → User.id)\n\n==================================================\nPHASE 0 — DATABASE INITIALIZATION\n==================================================\n\nTASKS:\n1. Define Prisma schema for frontend alignment\n2. Define SQLModel models for backend\n3. Ensure schemas are consistent\n4. Apply migrations\n5. Validate database connectivity\n\nVALIDATION:\n- Tables created\n- Constraints enforced\n- Relations valid\n\n==================================================\nPHASE 1 — FRONTEND (Next.js + Prisma)\n==================================================\n\nADDITIONAL TASKS:\n- Use Prisma only for typed data contracts\n- No direct DB access from frontend\n- All data flows through backend APIs\n- Date handling must be consistent\n\n==================================================\nPHASE 2 — BACKEND (SQLModel + PostgreSQL)\n==================================================\n\nADDITIONAL TASKS:\n- Use SQLModel sessions properly\n- Enforce FK constraints\n- No silent failures\n- Transactions where required\n\n==================================================\nPHASE 3 — INTEGRATION\n==================================================\n\nADDITIONAL VALIDATIONS:\n- CRUD reflects actual DB state\n- No UI desync\n- No stale data\n- All timestamps correct\n\n==================================================\nFINAL DATABASE GATE\n==================================================\n\nMANDATORY:\n- Schema matches backend logic\n- Backend ↔ DB integrity intact\n- Frontend reflects real persist'
+response_text: 'Created comprehensive implementation plan for TaskApp professional styling and authentication feature. Generated plan.md, research.md, data-model.md, quickstart.md, and API contract files.'
+outcome: 'Successfully created implementation plan with all required components'
+evaluation: 'Planning phase complete with all deliverables created. Ready to proceed with task generation and implementation.'
+---
+# PHR: TaskApp Professional Styling Planning
+
+## Summary
+Created a comprehensive implementation plan for the TaskApp professional styling and authentication feature with all required planning artifacts.
+
+## Changes Made
+- Created specs/2-taskapp-styling/plan.md with implementation strategy
+- Created specs/2-taskapp-styling/research.md with technology decisions
+- Created specs/2-taskapp-styling/data-model.md with entity definitions
+- Created specs/2-taskapp-styling/quickstart.md with setup instructions
+- Created specs/2-taskapp-styling/contracts/api-contract.json with API specifications

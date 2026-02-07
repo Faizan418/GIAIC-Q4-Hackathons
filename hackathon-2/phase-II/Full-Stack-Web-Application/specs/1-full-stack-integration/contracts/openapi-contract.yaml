@@ -1,0 +1,308 @@
+# API Contracts: Full-Stack Todo App Integration
+
+**Feature**: Full-Stack Todo App Integration
+**Date**: 2026-01-12
+**Status**: Complete
+
+## Base URL
+`http://localhost:8000/api/{user_id}`
+
+## Authentication
+All endpoints require JWT token in Authorization header:
+`Authorization: Bearer {token}`
+
+The user_id in the token must match the user_id in the URL path for data isolation.
+
+## API Endpoints
+
+### 1. Get User's Tasks
+**Endpoint**: `GET /api/{user_id}/tasks`
+
+**Description**: Retrieve all tasks for a specific user with optional filtering and sorting
+
+**Path Parameters**:
+- `user_id` (string, required): The ID of the user whose tasks to retrieve
+
+**Query Parameters**:
+- `skip` (integer, optional): Number of tasks to skip (default: 0)
+- `limit` (integer, optional): Maximum number of tasks to return (default: 100)
+- `completed` (boolean, optional): Filter by completion status
+- `priority` (string, optional): Filter by priority (high, medium, low)
+- `sort_by` (string, optional): Field to sort by (created_at, due_date, priority, title) (default: created_at)
+- `sort_order` (string, optional): Sort order (asc, desc) (default: desc)
+
+**Headers**:
+- `Authorization: Bearer {token}` (required)
+
+**Responses**:
+- `200 OK`: Successfully retrieved tasks
+  ```json
+  {
+    "success": true,
+    "data": {
+      "tasks": [
+        {
+          "id": 1,
+          "user_id": "uuid-string",
+          "title": "Task title",
+          "description": "Task description",
+          "completed": false,
+          "priority": "high",
+          "tags": ["tag1", "tag2"],
+          "due_date": "2026-12-31T23:59:59Z",
+          "recurrence": "daily",
+          "created_at": "2026-01-12T10:00:00Z",
+          "updated_at": "2026-01-12T10:00:00Z"
+        }
+      ],
+      "total": 1,
+      "skip": 0,
+      "limit": 100
+    }
+  }
+  ```
+- `401 Unauthorized`: Invalid or missing token
+- `403 Forbidden`: User ID in token doesn't match user ID in URL
+- `404 Not Found`: User not found
+
+### 2. Create Task
+**Endpoint**: `POST /api/{user_id}/tasks`
+
+**Description**: Create a new task for the specified user
+
+**Path Parameters**:
+- `user_id` (string, required): The ID of the user to create the task for
+
+**Headers**:
+- `Authorization: Bearer {token}` (required)
+- `Content-Type: application/json` (required)
+
+**Request Body**:
+```json
+{
+  "title": "Task title",
+  "description": "Task description",
+  "priority": "high",
+  "tags": ["tag1", "tag2"],
+  "due_date": "2026-12-31T23:59:59Z",
+  "recurrence": "daily"
+}
+```
+
+**Responses**:
+- `200 OK`: Task created successfully
+  ```json
+  {
+    "success": true,
+    "data": {
+      "task": {
+        "id": 1,
+        "user_id": "uuid-string",
+        "title": "Task title",
+        "description": "Task description",
+        "completed": false,
+        "priority": "high",
+        "tags": ["tag1", "tag2"],
+        "due_date": "2026-12-31T23:59:59Z",
+        "recurrence": "daily",
+        "created_at": "2026-01-12T10:00:00Z",
+        "updated_at": "2026-01-12T10:00:00Z"
+      }
+    },
+    "message": "Task created successfully"
+  }
+  ```
+- `400 Bad Request`: Invalid input data
+- `401 Unauthorized`: Invalid or missing token
+- `403 Forbidden`: User ID in token doesn't match user ID in URL
+- `422 Unprocessable Entity`: Validation errors
+
+### 3. Get Specific Task
+**Endpoint**: `GET /api/{user_id}/tasks/{task_id}`
+
+**Description**: Retrieve a specific task for the specified user
+
+**Path Parameters**:
+- `user_id` (string, required): The ID of the user
+- `task_id` (integer, required): The ID of the task to retrieve
+
+**Headers**:
+- `Authorization: Bearer {token}` (required)
+
+**Responses**:
+- `200 OK`: Task retrieved successfully
+  ```json
+  {
+    "success": true,
+    "data": {
+      "task": {
+        "id": 1,
+        "user_id": "uuid-string",
+        "title": "Task title",
+        "description": "Task description",
+        "completed": false,
+        "priority": "high",
+        "tags": ["tag1", "tag2"],
+        "due_date": "2026-12-31T23:59:59Z",
+        "recurrence": "daily",
+        "created_at": "2026-01-12T10:00:00Z",
+        "updated_at": "2026-01-12T10:00:00Z"
+      }
+    },
+    "message": "Task retrieved successfully"
+  }
+  ```
+- `401 Unauthorized`: Invalid or missing token
+- `403 Forbidden`: User ID in token doesn't match user ID in URL
+- `404 Not Found`: Task not found
+
+### 4. Update Task
+**Endpoint**: `PUT /api/{user_id}/tasks/{task_id}`
+
+**Description**: Update a specific task for the specified user
+
+**Path Parameters**:
+- `user_id` (string, required): The ID of the user
+- `task_id` (integer, required): The ID of the task to update
+
+**Headers**:
+- `Authorization: Bearer {token}` (required)
+- `Content-Type: application/json` (required)
+
+**Request Body** (all fields optional for partial updates):
+```json
+{
+  "title": "Updated task title",
+  "description": "Updated task description",
+  "completed": true,
+  "priority": "medium",
+  "tags": ["tag1", "tag2", "tag3"],
+  "due_date": "2026-12-31T23:59:59Z",
+  "recurrence": "weekly"
+}
+```
+
+**Responses**:
+- `200 OK`: Task updated successfully
+  ```json
+  {
+    "success": true,
+    "data": {
+      "task": {
+        "id": 1,
+        "user_id": "uuid-string",
+        "title": "Updated task title",
+        "description": "Updated task description",
+        "completed": true,
+        "priority": "medium",
+        "tags": ["tag1", "tag2", "tag3"],
+        "due_date": "2026-12-31T23:59:59Z",
+        "recurrence": "weekly",
+        "created_at": "2026-01-12T10:00:00Z",
+        "updated_at": "2026-01-12T11:00:00Z"
+      }
+    },
+    "message": "Task updated successfully"
+  }
+  ```
+- `400 Bad Request`: Invalid input data
+- `401 Unauthorized`: Invalid or missing token
+- `403 Forbidden`: User ID in token doesn't match user ID in URL
+- `404 Not Found`: Task not found
+- `422 Unprocessable Entity`: Validation errors
+
+### 5. Delete Task
+**Endpoint**: `DELETE /api/{user_id}/tasks/{task_id}`
+
+**Description**: Delete a specific task for the specified user
+
+**Path Parameters**:
+- `user_id` (string, required): The ID of the user
+- `task_id` (integer, required): The ID of the task to delete
+
+**Headers**:
+- `Authorization: Bearer {token}` (required)
+
+**Responses**:
+- `200 OK`: Task deleted successfully
+  ```json
+  {
+    "success": true,
+    "message": "Task deleted successfully"
+  }
+  ```
+- `401 Unauthorized`: Invalid or missing token
+- `403 Forbidden`: User ID in token doesn't match user ID in URL
+- `404 Not Found`: Task not found
+
+### 6. Toggle Task Completion
+**Endpoint**: `PATCH /api/{user_id}/tasks/{task_id}/complete`
+
+**Description**: Toggle the completion status of a specific task for the specified user. If the task is recurring, a new instance will be created for the next occurrence.
+
+**Path Parameters**:
+- `user_id` (string, required): The ID of the user
+- `task_id` (integer, required): The ID of the task to toggle
+
+**Headers**:
+- `Authorization: Bearer {token}` (required)
+- `Content-Type: application/json` (required)
+
+**Request Body**:
+```json
+{
+  "completed": true
+}
+```
+
+**Responses**:
+- `200 OK`: Task completion status updated successfully
+  ```json
+  {
+    "success": true,
+    "data": {
+      "task": {
+        "id": 1,
+        "user_id": "uuid-string",
+        "title": "Task title",
+        "description": "Task description",
+        "completed": true,
+        "priority": "high",
+        "tags": ["tag1", "tag2"],
+        "due_date": "2026-12-31T23:59:59Z",
+        "recurrence": "daily",
+        "created_at": "2026-01-12T10:00:00Z",
+        "updated_at": "2026-01-12T11:00:00Z"
+      }
+    },
+    "message": "Task completed successfully"
+  }
+  ```
+- `400 Bad Request`: Invalid input data
+- `401 Unauthorized`: Invalid or missing token
+- `403 Forbidden`: User ID in token doesn't match user ID in URL
+- `404 Not Found`: Task not found
+- `422 Unprocessable Entity`: Validation errors
+
+## Error Response Format
+
+All error responses follow this format:
+```json
+{
+  "success": false,
+  "error": {
+    "type": "ErrorType",
+    "message": "Human-readable error message",
+    "details": {} // Additional error details if applicable
+  }
+}
+```
+
+## Rate Limits
+
+- `GET /api/{user_id}/tasks`: 100 requests per hour
+- `POST /api/{user_id}/tasks`: 50 requests per hour
+- `GET /api/{user_id}/tasks/{task_id}`: 100 requests per hour
+- `PUT /api/{user_id}/tasks/{task_id}`: 50 requests per hour
+- `DELETE /api/{user_id}/tasks/{task_id}`: 20 requests per hour
+- `PATCH /api/{user_id}/tasks/{task_id}/complete`: 50 requests per hour

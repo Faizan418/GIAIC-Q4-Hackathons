@@ -1,0 +1,103 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+.venv/
+env.bak/
+venv.bak/
+.python-version
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# FastAPI/Python
+*.log
+*.sqlite
+.local
+logs/
+
+# Next.js
+.next/
+out/
+build/
+dist/
+.nyc_output
+coverage/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp/
+.pnp.js
+web-build/
+
+# dotenv environment variable files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+coverage/
+.coverage
+htmlcov/
+.pytest_cache/
+.hypothesis/
+
+# Docs
+docs/_build/
+
+# Distribution / packaging
+.pybuild/
+.tox/
+.nox/
+htmlcov/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.git/
+
+# Local development settings
+.settings/
+dev.Dockerfile
+
+# Secrets
+secrets/
+*.key
+*.pem
+*.crt
+*.cert
+*.secret
+
+# Alembic
+alembic_version/
+
+# Database
+*.db
+*.db-journal
+
+# Temporary files
+*.tmp
+*.temp
