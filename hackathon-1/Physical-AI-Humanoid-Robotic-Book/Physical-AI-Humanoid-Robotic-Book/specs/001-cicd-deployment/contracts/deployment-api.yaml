@@ -1,0 +1,309 @@
+openapi: 3.0.0
+info:
+  title: Deployment Management API
+  description: API for monitoring and managing CI/CD deployments
+  version: 1.0.0
+
+paths:
+  /api/deployment/status/{deployment_id}:
+    get:
+      summary: Check deployment status
+      description: Get the current status and progress of a deployment
+      parameters:
+        - name: deployment_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique identifier for the deployment
+      responses:
+        '200':
+          description: Deployment status information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deploymentId:
+                    type: string
+                    description: Unique identifier for the deployment
+                    example: "dep_12345"
+                  status:
+                    type: string
+                    enum: [pending, running, success, failure]
+                    description: Current status of the deployment
+                    example: "running"
+                  progress:
+                    type: integer
+                    minimum: 0
+                    maximum: 100
+                    description: Progress percentage
+                    example: 65
+                  currentStep:
+                    type: string
+                    description: Current step in the deployment process
+                    example: "building-frontend"
+                  startTime:
+                    type: string
+                    format: date-time
+                    description: When the deployment started
+                    example: "2025-12-17T10:30:00Z"
+                  estimatedCompletionTime:
+                    type: string
+                    format: date-time
+                    description: Estimated completion time or null
+                    example: "2025-12-17T10:45:00Z"
+                  logs:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        timestamp:
+                          type: string
+                          format: date-time
+                          description: Log entry timestamp
+                          example: "2025-12-17T10:32:15Z"
+                        level:
+                          type: string
+                          enum: [info, warning, error]
+                          description: Log level
+                          example: "info"
+                        message:
+                          type: string
+                          description: Log message
+                          example: "Frontend build started"
+        '404':
+          description: Deployment not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/deployment/trigger:
+    post:
+      summary: Trigger new deployment
+      description: Start a new deployment process
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                branch:
+                  type: string
+                  description: Git branch to deploy
+                  example: "main"
+                environment:
+                  type: string
+                  enum: [development, staging, production]
+                  description: Target environment
+                  example: "staging"
+                commitHash:
+                  type: string
+                  description: Git commit hash to deploy
+                  example: "a1b2c3d4e5f6"
+                includeMigrations:
+                  type: boolean
+                  description: Whether to run database migrations
+                  example: true
+                includeEmbeddingUpdate:
+                  type: boolean
+                  description: Whether to update embeddings in vector database
+                  example: false
+              required:
+                - branch
+                - environment
+                - commitHash
+      responses:
+        '200':
+          description: Deployment triggered successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deploymentId:
+                    type: string
+                    description: Unique identifier for the new deployment
+                    example: "dep_67890"
+                  status:
+                    type: string
+                    enum: [pending]
+                    description: Initial status of the deployment
+                    example: "pending"
+                  message:
+                    type: string
+                    description: Success message
+                    example: "deployment triggered successfully"
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/deployment/rollback/{deployment_id}:
+    post:
+      summary: Rollback deployment
+      description: Initiate rollback to a previous deployment state
+      parameters:
+        - name: deployment_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID of the deployment to roll back
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                targetDeploymentId:
+                  type: string
+                  description: ID of the deployment to roll back to
+                  example: "dep_12345"
+              required:
+                - targetDeploymentId
+      responses:
+        '200':
+          description: Rollback initiated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deploymentId:
+                    type: string
+                    description: Unique identifier for the rollback deployment
+                    example: "dep_rollback_123"
+                  status:
+                    type: string
+                    enum: [pending]
+                    description: Initial status of the rollback
+                    example: "pending"
+                  message:
+                    type: string
+                    description: Success message
+                    example: "rollback initiated successfully"
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Deployment not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/deployment/history:
+    get:
+      summary: Get deployment history
+      description: Retrieve history of past deployments
+      parameters:
+        - name: environment
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [development, staging, production]
+          description: Filter by environment
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+            minimum: 1
+            maximum: 100
+          description: Number of deployments to return
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
+          description: Number of deployments to skip
+      responses:
+        '200':
+          description: Deployment history
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deployments:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Deployment identifier
+                          example: "dep_12345"
+                        status:
+                          type: string
+                          enum: [success, failure]
+                          description: Status of the deployment
+                          example: "success"
+                        environment:
+                          type: string
+                          enum: [development, staging, production]
+                          description: Target environment
+                          example: "production"
+                        commitHash:
+                          type: string
+                          description: Git commit hash
+                          example: "a1b2c3d4e5f6"
+                        branch:
+                          type: string
+                          description: Git branch
+                          example: "main"
+                        startTime:
+                          type: string
+                          format: date-time
+                          description: When the deployment started
+                          example: "2025-12-17T09:00:00Z"
+                        endTime:
+                          type: string
+                          format: date-time
+                          description: When the deployment ended
+                          example: "2025-12-17T09:05:30Z"
+                        duration:
+                          type: number
+                          description: Duration in seconds
+                          example: 330
+                        triggeredBy:
+                          type: string
+                          description: User or system that triggered the deployment
+                          example: "github-actions"
+                  total:
+                    type: integer
+                    description: Total number of deployments matching criteria
+                    example: 100
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error message
+          example: "Invalid request parameters"
+        code:
+          type: string
+          description: Error code
+          example: "INVALID_PARAMS"

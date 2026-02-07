@@ -1,0 +1,36 @@
+```mermaid
+graph LR
+    subgraph "Isaac Sim (Simulation)"
+        A[Virtual Scene] --> B[Physics Simulation]
+        B --> C[Sensor Simulation]
+        C --> D[RGB-D Data Generation]
+        D --> E[Synthetic Sensor Data]
+    end
+
+    subgraph "Isaac ROS (Perception Processing)"
+        E --> F[ROS 2 Transport]
+        F --> G[GPU Accelerated Perception]
+        G --> H[Object Detection]
+        H --> I[Pose Estimation]
+        I --> J[Semantic Segmentation]
+    end
+
+    subgraph "Output & Decision Making"
+        J --> K[Perception Results]
+        K --> L[Decision Engine]
+        L --> M[Action Commands]
+    end
+
+    subgraph "Real World Connection"
+        N[Real Sensors] -.-> F
+        O[Real Robot] -.-> M
+    end
+
+    style A fill:#E91E63,stroke:#AD1457,color:#fff
+    style G fill:#9C27B0,stroke:#6A1B9A,color:#fff
+    style L fill:#FF5722,stroke:#D84315,color:#fff
+```
+
+## Simulation to Perception Pipeline
+
+This diagram shows the complete pipeline from Isaac Sim generating synthetic sensor data to Isaac ROS processing that data through GPU-accelerated perception nodes. The pipeline demonstrates how simulation data flows through the system to produce perception results that can be used for decision making, with connections to real-world sensors and robots.

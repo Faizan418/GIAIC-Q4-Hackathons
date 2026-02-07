@@ -1,0 +1,196 @@
+.featuresSection {
+  padding: 4rem 0;
+  width: 100%;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 0 1rem;
+  max-width: 1200px;
+}
+
+.sectionTitle {
+  text-align: center;
+  margin-bottom: 3rem;
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--ifm-heading-color);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  align-items: start;
+}
+
+.featureCard {
+  background: var(--ifm-card-background-color, #fff);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.featureCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border-color: var(--ifm-color-emphasis-400);
+  cursor: pointer;
+}
+
+.featureImage {
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+}
+
+.featureImage img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: opacity 0.2s ease;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+.featureTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  color: var(--ifm-heading-color);
+  line-height: 1.4;
+  /* Ensure sufficient contrast ratio */
+  color: var(--ifm-color-emphasis-400);
+}
+
+.featureDescription {
+  font-size: 1rem;
+  color: var(--ifm-font-color-base);
+  margin: 0 0 1.5rem 0;
+  line-height: 1.6;
+  flex-grow: 1;
+  /* Ensure sufficient contrast ratio */
+  color: var(--ifm-color-emphasis-400);
+}
+
+.featureLink {
+  display: inline-block;
+  padding: 0.5rem 1.5rem;
+  background-color: var(--ifm-color-primary);
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  align-self: center;
+  text-align: center;
+  min-width: 120px;
+}
+
+.featureLink:hover {
+  background-color: var(--ifm-color-primary-dark);
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+
+.featureLink:focus {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 996px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sectionTitle {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .featuresSection {
+    padding: 2rem 0;
+  }
+
+  .sectionTitle {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .featureCard {
+    padding: 1.25rem;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .featureCard,
+  .featureCard:hover,
+  .featureLink,
+  .featureLink:hover {
+    transition: none;
+    transform: none;
+  }
+}
+
+@media (prefers-contrast: high) {
+  .featureCard {
+    border: 2px solid var(--ifm-color-emphasis-400);
+  }
+
+  .featureTitle {
+    color: var(--ifm-heading-color);
+  }
+
+  .featureDescription {
+    color: var(--ifm-font-color-base);
+  }
+}
+
+/* Handle browser reduced color/contrast settings */
+@media (prefers-contrast: low) {
+  .featureCard {
+    background: var(--ifm-color-emphasis-100);
+    border-color: var(--ifm-color-emphasis-200);
+  }
+}
+
+/* Focus management for keyboard navigation */
+.featureCard:focus-within {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 2px;
+}
+
+/* Dark mode compatibility */
+html[data-theme='dark'] .featureCard {
+  background: var(--ifm-card-background-color, #242526);
+  border-color: var(--ifm-color-emphasis-300);
+}
+
+html[data-theme='dark'] .featureCard:hover {
+  border-color: var(--ifm-color-emphasis-500);
+}
+
+html[data-theme='dark'] .featureTitle {
+  color: var(--ifm-color-emphasis-100);
+}
+
+html[data-theme='dark'] .featureDescription {
+  color: var(--ifm-color-emphasis-200);
+}

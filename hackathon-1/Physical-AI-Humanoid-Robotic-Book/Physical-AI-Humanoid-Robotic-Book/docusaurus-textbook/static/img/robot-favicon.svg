@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <!-- Simple robot head -->
+  <rect x="3" y="2" width="10" height="8" rx="2" fill="#4F46E5"/>
+  <!-- Robot eyes -->
+  <circle cx="6" cy="5" r="1" fill="white"/>
+  <circle cx="10" cy="5" r="1" fill="white"/>
+  <!-- Simple body -->
+  <rect x="4" y="10" width="8" height="4" rx="1" fill="#4F46E5"/>
+</svg>

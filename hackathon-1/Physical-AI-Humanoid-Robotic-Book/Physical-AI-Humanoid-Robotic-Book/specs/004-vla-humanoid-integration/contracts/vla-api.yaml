@@ -1,0 +1,277 @@
+openapi: 3.0.0
+info:
+  title: Vision-Language-Action (VLA) API
+  description: API for the Vision-Language-Action system enabling humanoid robots to perceive, reason, and act
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+
+paths:
+  /vla/process_command:
+    post:
+      summary: Process a natural language command
+      description: Takes a natural language command and returns an executable action plan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LanguageCommand'
+      responses:
+        '200':
+          description: Successfully processed command
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActionPlan'
+        '400':
+          description: Invalid command format
+        '500':
+          description: Internal server error
+
+  /vla/detect_objects:
+    post:
+      summary: Detect objects in the environment
+      description: Process RGB-D sensor data to identify and locate objects
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SensorData'
+      responses:
+        '200':
+          description: Successfully detected objects
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  objects:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ObjectPercept'
+                  success:
+                    type: boolean
+        '500':
+          description: Internal server error
+
+  /vla/execute_action:
+    post:
+      summary: Execute an action
+      description: Execute a planned action on the robot
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Action'
+      responses:
+        '200':
+          description: Action executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExecutionResult'
+        '400':
+          description: Invalid action parameters
+        '500':
+          description: Execution failed
+
+components:
+  schemas:
+    LanguageCommand:
+      type: object
+      required:
+        - text
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the command
+        text:
+          type: string
+          description: Natural language command text
+        context:
+          type: object
+          description: Conversation context
+        priority:
+          type: string
+          enum: [LOW, MEDIUM, HIGH, CRITICAL]
+          description: Execution priority
+
+    ActionPlan:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the plan
+        task:
+          type: string
+          description: High-level task type
+        steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/ActionStep'
+        success_criteria:
+          type: array
+          items:
+            type: string
+        estimated_time:
+          type: number
+          description: Estimated execution time in seconds
+        confidence:
+          type: number
+          format: float
+          minimum: 0.0
+          maximum: 1.0
+
+    ActionStep:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the step
+        type:
+          type: string
+          enum: [MOVE, GRASP, SPEAK, WAIT, NAVIGATE, DETECT_OBJECTS]
+          description: Type of action
+        parameters:
+          type: object
+          description: Action-specific parameters
+        timeout:
+          type: number
+          description: Maximum time to complete the step in seconds
+
+    ObjectPercept:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the object
+        name:
+          type: string
+          description: Human-readable name of the object
+        category:
+          type: string
+          description: Semantic category of the object
+        pose:
+          $ref: '#/components/schemas/Pose3D'
+        confidence:
+          type: number
+          format: float
+          minimum: 0.0
+          maximum: 1.0
+        bounding_box:
+          $ref: '#/components/schemas/BoundingBox2D'
+
+    Pose3D:
+      type: object
+      properties:
+        position:
+          $ref: '#/components/schemas/Vector3'
+        orientation:
+          $ref: '#/components/schemas/Quaternion'
+
+    Vector3:
+      type: object
+      properties:
+        x:
+          type: number
+          format: float
+        y:
+          type: number
+          format: float
+        z:
+          type: number
+          format: float
+
+    Quaternion:
+      type: object
+      properties:
+        x:
+          type: number
+          format: float
+        y:
+          type: number
+          format: float
+        z:
+          type: number
+          format: float
+        w:
+          type: number
+          format: float
+
+    BoundingBox2D:
+      type: object
+      properties:
+        x:
+          type: number
+          format: float
+        y:
+          type: number
+          format: float
+        width:
+          type: number
+          format: float
+        height:
+          type: number
+          format: float
+
+    SensorData:
+      type: object
+      properties:
+        rgb_image:
+          type: string
+          format: byte
+          description: Base64 encoded RGB image
+        depth_image:
+          type: string
+          format: byte
+          description: Base64 encoded depth image
+        camera_info:
+          $ref: '#/components/schemas/CameraInfo'
+
+    CameraInfo:
+      type: object
+      properties:
+        width:
+          type: integer
+        height:
+          type: integer
+        intrinsic_matrix:
+          type: array
+          items:
+            type: number
+            format: float
+          minItems: 9
+          maxItems: 9
+
+    Action:
+      type: object
+      required:
+        - type
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the action
+        type:
+          type: string
+          enum: [MOVE, GRASP, SPEAK, NAVIGATE]
+          description: Type of action to execute
+        parameters:
+          type: object
+          description: Action-specific parameters
+
+    ExecutionResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Whether the action was executed successfully
+        error:
+          type: string
+          description: Error message if execution failed
+        execution_time:
+          type: number
+          description: Time taken to execute the action in seconds

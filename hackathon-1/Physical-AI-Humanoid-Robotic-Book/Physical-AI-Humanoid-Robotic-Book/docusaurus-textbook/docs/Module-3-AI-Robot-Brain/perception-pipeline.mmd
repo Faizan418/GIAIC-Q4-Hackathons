@@ -1,0 +1,36 @@
+graph TB
+    subgraph "Isaac Sim Environment"
+        A[RGB-D Camera in Simulation] --> B[Synthetic RGB Image]
+        A --> C[Synthetic Depth Image]
+    end
+
+    subgraph "Isaac ROS Perception Pipeline"
+        B --> D[Isaac ROS Image Pipeline]
+        C --> E[Isaac ROS Depth Pipeline]
+        D --> F[GPU-Accelerated Object Detection]
+        E --> G[3D Pose Estimation]
+    end
+
+    subgraph "Vision Processing"
+        F --> H[Object Detection Results]
+        G --> I[Depth Information]
+        H --> J[Object Classification]
+        I --> J
+    end
+
+    subgraph "Output Processing"
+        J --> K[Object Pose Array]
+        K --> L[Grasp Planning Input]
+        K --> M[Scene Understanding]
+    end
+
+    subgraph "Downstream Applications"
+        L --> N[Robotic Manipulation]
+        M --> O[Scene Context]
+    end
+
+    style A fill:#e1f5fe
+    style N fill:#f3e5f5
+    style O fill:#f3e5f5
+    style F fill:#fff3e0
+    style G fill:#fff3e0

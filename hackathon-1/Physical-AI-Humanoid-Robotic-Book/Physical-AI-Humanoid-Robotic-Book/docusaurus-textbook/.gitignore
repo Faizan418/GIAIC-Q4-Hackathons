@@ -1,0 +1,57 @@
+# Dependencies
+/node_modules
+
+# Production
+/build
+
+# Generated files
+.docusaurus
+.cache-loader
+
+# Environment variables
+.env*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS generated files
+.DS_Store
+Thumbs.db
+.DS_Store?
+._*
+
+# IDE
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+
+# Node.js/TypeScript
+dist/
+coverage/
+*.tsbuildinfo
+.nyc_output/
+
+# Deployment
+.vercel
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Testing
+coverage/
+.nyc_output/
+junit.xml
+
+# Security
+secrets/
+credentials.json

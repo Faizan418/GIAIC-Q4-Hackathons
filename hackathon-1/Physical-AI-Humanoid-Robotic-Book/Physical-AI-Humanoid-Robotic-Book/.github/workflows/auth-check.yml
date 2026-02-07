@@ -1,0 +1,63 @@
+name: Auth System Check
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  auth-security-check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Check for hardcoded secrets
+      run: |
+        echo "Checking for hardcoded secrets in auth-related files..."
+        if grep -r "secret.*=.*['\"]\w\+['\"]\|password.*=.*['\"]\w\+['\"]\|token.*=.*['\"]\w\+['\"]" . --exclude="*.md" --exclude-dir=".git" --exclude-dir="node_modules" --exclude-dir="__pycache__"; then
+          echo "Potential hardcoded secrets found! Please review."
+          exit 1
+        else
+          echo "No obvious hardcoded secrets found in auth files."
+        fi
+
+    - name: Check JWT configuration
+      run: |
+        echo "Checking JWT configuration..."
+        if grep -r "your-secret-key\|secret-key-here" backend/; then
+          echo "Default JWT secret found! This should be changed in production."
+          exit 1
+        else
+          echo "JWT secret configuration looks good."
+        fi
+
+    - name: Verify auth dependencies are properly configured
+      run: |
+        echo "Checking auth dependencies..."
+        if grep -q "passlib\|bcrypt\|python-jose" backend/requirements.txt; then
+          echo "Auth dependencies found in requirements.txt"
+        else
+          echo "Auth dependencies not found in requirements.txt"
+          exit 1
+        fi
+
+    - name: Check for proper password hashing
+      run: |
+        echo "Checking for proper password hashing implementation..."
+        if grep -r "pwd_context\|get_password_hash\|verify_password" backend/services/auth_service.py; then
+          echo "Password hashing implementation found"
+        else
+          echo "Password hashing implementation not found"
+          exit 1
+        fi
+
+    - name: Verify auth endpoints exist
+      run: |
+        echo "Checking for auth endpoints..."
+        if grep -r "auth.router\|/auth/" backend/main.py; then
+          echo "Auth endpoints found in main app"
+        else
+          echo "Auth endpoints not found in main app"
+          exit 1
+        fi

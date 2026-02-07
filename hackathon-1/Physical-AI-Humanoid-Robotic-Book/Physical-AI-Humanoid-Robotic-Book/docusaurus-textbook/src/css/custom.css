@@ -1,0 +1,328 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+/* You can override the default Infima variables here. */
+:root {
+  /* New black-white gradient theme */
+  --ifm-color-primary: #2e8555;
+  --ifm-color-primary-dark: #29784c;
+  --ifm-color-primary-darker: #277148;
+  --ifm-color-primary-darkest: #205d3b;
+  --ifm-color-primary-light: #33925d;
+  --ifm-color-primary-lighter: #359962;
+  --ifm-color-primary-lightest: #3cad6e;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+
+  /* Custom theme variables */
+  --theme-gradient-start: #000000;
+  --theme-gradient-mid: #1a1a1a;
+  --theme-gradient-end: #ffffff;
+  --theme-gradient: linear-gradient(135deg, var(--theme-gradient-start) 25%, var(--theme-gradient-mid) 40%, var(--theme-gradient-end) 100%);
+
+  /* Light mode surfaces */
+  --theme-surface: rgba(255, 255, 255, 0.85);
+  --theme-text: #000;
+  --theme-muted: #25252594;
+
+  /* Typography */
+  --font-family-poppins: 'Poppins', system-ui, -apple-system, sans-serif;
+
+  /* Spacing system */
+  --spacing-unit: 4px;
+  --spacing-xs: calc(var(--spacing-unit) * 2); /* 8px */
+  --spacing-sm: calc(var(--spacing-unit) * 3); /* 12px */
+  --spacing-md: calc(var(--spacing-unit) * 4); /* 16px */
+  --spacing-lg: calc(var(--spacing-unit) * 6); /* 24px */
+  --spacing-xl: calc(var(--spacing-unit) * 8); /* 32px */
+
+  /* Breakpoints */
+  --breakpoint-mobile: 320px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1024px;
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme='dark'] {
+  --ifm-color-primary: #25c2a0;
+  --ifm-color-primary-dark: #21af90;
+  --ifm-color-primary-darker: #1fa588;
+  --ifm-color-primary-darkest: #1a8870;
+  --ifm-color-primary-light: #29d5b0;
+  --ifm-color-primary-lighter: #32d8b4;
+  --ifm-color-primary-lightest: #4fddbf;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+
+  /* Dark mode gradient + surfaces */
+  --theme-gradient-start: #050505;
+  --theme-gradient-mid: #0f2027;
+  --theme-gradient-end: #203a43;
+  --theme-gradient: linear-gradient(135deg, var(--theme-gradient-start) 20%, var(--theme-gradient-mid) 50%, var(--theme-gradient-end) 100%);
+  --theme-surface: rgba(20, 20, 20, 0.8);
+  --theme-text: #e7f5ef;
+  --theme-muted: #9adfc8;
+}
+
+/* Apply gradient background to main layout */
+body {
+  background: var(--theme-gradient);
+  background-attachment: fixed;
+  font-family: var(--font-family-poppins);
+  color: var(--theme-text);
+  transition: background 240ms ease, color 200ms ease;
+}
+
+/* Apply Poppins font throughout the site */
+.navbar, .footer, .main-wrapper, .container, .markdown {
+  font-family: var(--font-family-poppins);
+}
+
+/* Ensure proper text contrast on gradient background */
+.markdown h1, .markdown h2, .markdown h3, .markdown h4, .markdown h5, .markdown h6 {
+  font-family: var(--font-family-poppins);
+  color: var(--theme-text);
+}
+
+.markdown h1 {
+  font-weight: 600;
+}
+
+.markdown h2 {
+  font-weight: 500;
+}
+
+.markdown h3 {
+  font-weight: 500;
+}
+
+/* Style text elements with new typography */
+.markdown p, .markdown span, .markdown li {
+  font-family: var(--font-family-poppins);
+  color: var(--theme-text);
+}
+
+/* Style links with new theme */
+.navbar__link, .footer__link, .theme-edit-this-page, .table-of-contents__link, .pagination-nav__link {
+  color: var(--theme-muted);
+  transition: color 180ms ease, transform 180ms ease, text-shadow 180ms ease;
+}
+
+.navbar__link:hover, .footer__link:hover, .theme-edit-this-page:hover, .table-of-contents__link:hover, .pagination-nav__link:hover {
+  color: var(--theme-muted);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  transform: translateY(-1px);
+}
+
+/* Style navigation with new theme */
+.navbar {
+  background: var(--theme-surface);
+  backdrop-filter: blur(10px);
+  transition: background 200ms ease;
+}
+
+/* Style footer with new theme */
+.footer {
+  background: var(--theme-surface);
+  color: var(--theme-text);
+  transition: background 200ms ease;
+}
+
+/* Style document sidebar with new theme */
+.sidebar {
+  background: var(--theme-surface);
+  transition: background 200ms ease;
+}
+
+.sidebar-category-animated {
+  border-left: 2px solid rgba(0, 0, 0, 0.08);
+  padding-left: var(--spacing-sm);
+  transition: border-color 180ms ease, transform 180ms ease, background 180ms ease;
+}
+
+[data-theme='dark'] .sidebar-category-animated {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-category-animated:hover {
+  transform: translateX(2px);
+  background: rgba(0, 0, 0, 0.03);
+}
+
+[data-theme='dark'] .sidebar-category-animated:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.sidebar-item-animated .menu__link,
+.sidebar-category-animated > .menu__list-item-collapsible > .menu__link {
+  border-radius: 6px;
+  transition: color 160ms ease, background 160ms ease, transform 160ms ease;
+}
+
+.sidebar-item-animated .menu__link:hover,
+.sidebar-category-animated > .menu__list-item-collapsible > .menu__link:hover {
+  background: rgba(5, 123, 169, 0.353); /* blue-green primary tint */
+  color: var(--ifm-color-primary);
+  transform: translateX(2px);
+}
+
+[data-theme='dark'] .sidebar-item-animated .menu__link:hover,
+[data-theme='dark'] .sidebar-category-animated > .menu__list-item-collapsible > .menu__link:hover {
+  background: rgba(5, 123, 169, 0.353);
+}
+
+/* Style document content area with new theme and proper text contrast */
+.main-wrapper {
+  background: var(--theme-surface);
+  animation: subtle-fade 320ms ease;
+}
+
+/* Update main content container layout with improved spacing system */
+.container {
+  padding: var(--spacing-lg) var(--spacing-md);
+}
+
+/* Redesign document header section with better information hierarchy */
+.markdown h1:first-child {
+  margin-top: 0;
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Implement improved spacing between sections and content blocks */
+.markdown h2, .markdown h3, .markdown h4 {
+  margin-top: var(--spacing-lg);
+  margin-bottom: var(--spacing-sm);
+}
+
+.markdown p, .markdown ul, .markdown ol {
+  margin-bottom: var(--spacing-md);
+}
+
+/* Update table of contents/navigation layout with better visual hierarchy */
+.table-of-contents {
+  border-left: 2px solid rgba(0, 0, 0, 0.1);
+  padding-left: var(--spacing-md);
+}
+
+/* Redesign content section dividers and organization */
+.theme-doc-markdown {
+  padding: var(--spacing-md) 0;
+}
+
+/* Implement consistent padding and margins throughout the site */
+.content {
+  margin: var(--spacing-lg) 0;
+}
+
+/* Update code block presentation with new layout */
+.prism-code {
+  padding: var(--spacing-md) !important;
+  border-radius: 4px;
+  margin: var(--spacing-md) 0;
+  transition: box-shadow 180ms ease;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.prism-code:hover {
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.12);
+}
+
+/* Redesign image and media placement within content */
+.markdown img {
+  max-width: 100%;
+  height: auto;
+  margin: var(--spacing-md) 0;
+  border-radius: 4px;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.markdown img:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+}
+
+/* Buttons: tighter padding, soft radius, and subtle elevation */
+.button {
+  font-family: var(--font-family-poppins);
+  border-radius: 10px;
+  padding: calc(var(--spacing-sm) + 2px) calc(var(--spacing-lg) - 2px);
+  border: none;
+  transition: transform 150ms ease, box-shadow 150ms ease, background 150ms ease,
+    color 150ms ease;
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 2px;
+}
+
+.button--primary {
+  background: linear-gradient(
+    135deg,
+    var(--ifm-color-primary-dark) 0%,
+    var(--ifm-color-primary) 50%,
+    var(--ifm-color-primary-light) 100%
+  );
+  color: #fff;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+}
+
+.button--primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.22);
+}
+
+.button--primary:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+}
+
+.button--secondary {
+  background: transparent;
+  border: 1.5px solid var(--theme-muted);
+  color: var(--theme-text);
+  box-shadow: none;
+}
+
+.button--secondary:hover {
+  color: #000;
+  border-color: #000;
+  background: rgba(0, 0, 0, 0.07);
+  transform: translateY(-1px);
+}
+
+.button--secondary:active {
+  transform: translateY(0);
+}
+
+/* Provide breathing room between adjacent buttons */
+.button + .button {
+  margin-left: var(--spacing-sm);
+}
+
+@keyframes subtle-fade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Improved accessibility for prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

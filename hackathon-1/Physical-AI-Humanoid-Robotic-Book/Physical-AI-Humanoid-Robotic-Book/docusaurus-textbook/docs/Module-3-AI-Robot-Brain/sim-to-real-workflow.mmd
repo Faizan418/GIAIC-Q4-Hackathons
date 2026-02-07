@@ -1,0 +1,48 @@
+graph TB
+    subgraph "Simulation Phase"
+        A[Isaac Sim Environment Setup] --> B[Domain Randomization]
+        B --> C[Policy Training in Simulation]
+        C --> D[Performance Validation in Sim]
+    end
+
+    subgraph "Domain Gap Analysis"
+        D --> E[Identify Domain Differences]
+        E --> F[Transfer Gap Assessment]
+        F --> G[Robustness Evaluation]
+    end
+
+    subgraph "Bridging Techniques"
+        G --> H[Domain Adaptation]
+        H --> I[Sim-to-Real Transfer Learning]
+        I --> J[Robust Control Design]
+    end
+
+    subgraph "Real World Validation"
+        J --> K[Initial Real World Testing]
+        K --> L[Performance Comparison]
+        L --> M{Performance Adequate?}
+    end
+
+    subgraph "Iterative Refinement"
+        M -->|No| N[Return to Simulation with Real Data]
+        M -->|Yes| O[Deploy to Real Robot]
+        N --> P[Collect Real World Data]
+        P --> Q[Update Simulation Fidelity]
+        Q --> C
+    end
+
+    subgraph "Deployment Pipeline"
+        O --> R[Model Export and Optimization]
+        R --> S[Safety Validation]
+        S --> T[Real Robot Deployment]
+    end
+
+    subgraph "Monitoring and Feedback"
+        T --> U[Performance Monitoring]
+        U --> V[Data Collection]
+        V --> W[Continuous Learning]
+    end
+
+    style A fill:#e1f5fe
+    style T fill:#e8f5e8
+    style M fill:#fff3e0

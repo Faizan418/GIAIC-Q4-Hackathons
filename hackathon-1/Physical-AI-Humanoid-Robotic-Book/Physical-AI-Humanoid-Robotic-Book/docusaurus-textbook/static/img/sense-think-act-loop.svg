@@ -1,0 +1,42 @@
+<svg width="600" height="400" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .node { fill: #f3e5f5; stroke: #7b1fa2; stroke-width: 2px; rx: 10px; ry: 10px; }
+    .label { font-family: Arial, sans-serif; font-size: 16px; text-anchor: middle; dominant-baseline: middle; }
+    .arrow { stroke: #7b1fa2; stroke-width: 3px; marker-end: url(#arrowhead); fill: none; }
+  </style>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="12" markerHeight="8"
+      refX="11" refY="4" orient="auto">
+      <polygon points="0 0, 12 4, 0 8" fill="#7b1fa2" />
+    </marker>
+  </defs>
+
+  <!-- Sense Block -->
+  <rect x="50" y="150" width="120" height="80" class="node"/>
+  <text x="110" y="190" class="label">Sense</text>
+
+  <!-- Think Block -->
+  <rect x="240" y="50" width="120" height="80" class="node"/>
+  <text x="300" y="90" class="label">Think</text>
+
+  <!-- Act Block -->
+  <rect x="430" y="150" width="120" height="80" class="node"/>
+  <text x="490" y="190" class="label">Act</text>
+
+  <!-- Environment Block -->
+  <rect x="240" y="250" width="120" height="80" class="node"/>
+  <text x="300" y="290" class="label">Environment</text>
+
+  <!-- Arrows -->
+  <path d="M170,175 C200,175 200,80 240,80" class="arrow"/>
+  <path d="M360,80 C400,80 400,175 430,175" class="arrow"/>
+  <path d="M490,230 C490,270 360,270 360,270" class="arrow"/>
+  <path d="M240,290 C200,290 200,220 170,220" class="arrow"/>
+
+  <!-- Labels -->
+  <text x="200" y="60" class="label">Perception</text>
+  <text x="400" y="60" class="label">Decision</text>
+  <text x="470" y="260" class="label">Action</text>
+  <text x="180" y="260" class="label">Feedback</text>
+</svg>

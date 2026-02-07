@@ -1,0 +1,88 @@
+# Isaac ROS Node API Contracts
+
+## Perception Node Interface
+
+### Sensor Data Input
+```
+Topic: /camera/rgb/image_raw
+Type: sensor_msgs/Image
+Rate: 10-30 Hz
+Resolution: 640x480 (configurable)
+Encoding: RGB8 or BGR8
+```
+
+```
+Topic: /camera/depth/image_raw
+Type: sensor_msgs/Image
+Rate: 10-30 Hz
+Resolution: 640x480 (configurable)
+Encoding: 32FC1 (float32)
+```
+
+### Object Detection Output
+```
+Topic: /object_detection/result
+Type: vision_msgs/Detection2DArray
+Rate: 10-30 Hz
+Frame: camera_link
+```
+
+### Pose Estimation Output
+```
+Topic: /pose_estimation/result
+Type: geometry_msgs/PoseArray
+Rate: 10-30 Hz
+Frame: base_link
+```
+
+## Manipulation Node Interface
+
+### Grasp Planning Input
+```
+Topic: /manipulation/grasp_input
+Type: geometry_msgs/PoseArray
+Rate: 1-5 Hz
+Frame: base_link
+```
+
+### Arm Control Output
+```
+Topic: /arm_controller/command
+Type: trajectory_msgs/JointTrajectory
+Rate: 100 Hz
+Joint Names: [joint1, joint2, joint3, joint4, joint5, joint6]
+```
+
+## RL Training Interface
+
+### Environment State
+```
+Topic: /rl_environment/state
+Type: std_msgs/Float32MultiArray
+Rate: 50-100 Hz
+Description: Robot state vector for RL agent
+```
+
+### Action Command
+```
+Topic: /rl_agent/action
+Type: std_msgs/Float32MultiArray
+Rate: 50-100 Hz
+Description: Action vector from RL agent
+```
+
+## Service Interfaces
+
+### Reset Simulation
+```
+Service: /simulation/reset
+Type: std_srvs/Empty
+Description: Reset simulation to initial state
+```
+
+### Get Robot State
+```
+Service: /robot/get_state
+Type: custom_msgs/GetRobotState
+Description: Get current robot state for RL training
+```

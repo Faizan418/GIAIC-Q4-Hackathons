@@ -1,0 +1,43 @@
+```mermaid
+graph TB
+    subgraph "Isaac Platform Ecosystem"
+        A[Isaac Sim] --> B[Omniverse Platform]
+        A --> C[Simulation Engine]
+        D[Isaac ROS] --> E[ROS 2 Bridge]
+        D --> F[GPU Acceleration Layer]
+        B --> D
+        C --> D
+    end
+
+    subgraph "Integration Layer"
+        G[ROS 2] --> E
+        F --> H[Perception Nodes]
+        F --> I[Control Nodes]
+        F --> J[AI/ML Processing]
+    end
+
+    subgraph "Hardware Acceleration"
+        K[NVIDIA GPU] --> F
+        L[RTX Technology] --> K
+    end
+
+    subgraph "Applications"
+        H --> M[Object Detection]
+        I --> N[Manipulation Control]
+        J --> O[Reinforcement Learning]
+    end
+
+    subgraph "External Systems"
+        P[Real Robots] -.-> I
+        Q[Cloud Services] -.-> J
+    end
+
+    style A fill:#4CAF50,stroke:#388E3C,color:#fff
+    style D fill:#2196F3,stroke:#0D47A1,color:#fff
+    style G fill:#FF9800,stroke:#EF6C00,color:#fff
+    style K fill:#9C27B0,stroke:#6A1B9A,color:#fff
+```
+
+## Isaac Platform Architecture
+
+This diagram illustrates the NVIDIA Isaac platform architecture, showing how Isaac Sim and Isaac ROS integrate with the broader ecosystem. The platform leverages NVIDIA's GPU acceleration and Omniverse technology to provide a comprehensive robotics development environment.

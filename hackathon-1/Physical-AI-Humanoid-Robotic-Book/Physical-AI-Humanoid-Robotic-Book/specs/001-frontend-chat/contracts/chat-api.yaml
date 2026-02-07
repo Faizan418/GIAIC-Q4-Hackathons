@@ -1,0 +1,185 @@
+openapi: 3.0.0
+info:
+  title: Chat API for Physical AI & Humanoid Robotics Textbook
+  description: API for chat functionality with RAG-based responses
+  version: 1.0.0
+
+paths:
+  /query:
+    post:
+      summary: Submit a general question to the chat system
+      description: Submit a user question and receive a contextual response
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: The user's question
+                  example: "Explain how humanoid robots maintain balance"
+                conversation_id:
+                  type: string
+                  description: Optional session identifier to maintain conversation context
+                  example: "sess_12345"
+                context:
+                  type: object
+                  description: Additional context for the query
+                  properties:
+                    page_url:
+                      type: string
+                      description: URL of the current textbook page
+                      example: "/docs/introduction-to-physical-ai"
+                    previous_messages:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          role:
+                            type: string
+                            enum: [user, assistant]
+                          content:
+                            type: string
+                      description: Previous messages in the conversation
+              required:
+                - query
+      responses:
+        '200':
+          description: Successful response with answer
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response_id:
+                    type: string
+                    description: Unique identifier for this response
+                    example: "resp_67890"
+                  answer:
+                    type: string
+                    description: The AI-generated answer
+                    example: "Humanoid robots maintain balance through..."
+                  sources:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                        url:
+                          type: string
+                        snippet:
+                          type: string
+                  conversation_id:
+                    type: string
+                    description: Session identifier (new or existing)
+                    example: "sess_12345"
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /text-selection-query:
+    post:
+      summary: Submit a query based on selected/highlighted text
+      description: Submit selected text and receive a contextual explanation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                selected_text:
+                  type: string
+                  description: The highlighted text from the textbook
+                  example: "center of mass"
+                context:
+                  type: object
+                  properties:
+                    page_url:
+                      type: string
+                      description: URL of the current textbook page
+                      example: "/docs/robotics-kinematics"
+                    surrounding_text:
+                      type: string
+                      description: Text surrounding the selection
+                      example: "The robot's center of mass affects its stability..."
+                    conversation_id:
+                      type: string
+                      description: Optional session identifier to maintain conversation context
+                      example: "sess_12345"
+              required:
+                - selected_text
+                - context
+      responses:
+        '200':
+          description: Successful response with explanation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response_id:
+                    type: string
+                    description: Unique identifier for this response
+                    example: "resp_67891"
+                  explanation:
+                    type: string
+                    description: Explanation of the selected text
+                    example: "The center of mass is the point where..."
+                  related_concepts:
+                    type: array
+                    items:
+                      type: string
+                    description: Related concepts mentioned in the response
+                    example: ["stability", "kinematics", "dynamics"]
+                  sources:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                        url:
+                          type: string
+                        snippet:
+                          type: string
+                  conversation_id:
+                    type: string
+                    description: Session identifier (new or existing)
+                    example: "sess_12345"
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error message
+        code:
+          type: string
+          description: Error code

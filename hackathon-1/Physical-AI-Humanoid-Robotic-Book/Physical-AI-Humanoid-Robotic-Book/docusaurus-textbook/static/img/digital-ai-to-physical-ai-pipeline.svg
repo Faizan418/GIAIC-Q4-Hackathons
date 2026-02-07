@@ -1,0 +1,37 @@
+<svg width="800" height="300" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .node { fill: #e1f5fe; stroke: #0277bd; stroke-width: 2px; rx: 10px; ry: 10px; }
+    .label { font-family: Arial, sans-serif; font-size: 14px; text-anchor: middle; dominant-baseline: middle; }
+    .arrow { stroke: #0277bd; stroke-width: 2px; marker-end: url(#arrowhead); }
+  </style>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7"
+      refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#0277bd" />
+    </marker>
+  </defs>
+
+  <!-- Digital AI -->
+  <rect x="50" y="100" width="150" height="80" class="node"/>
+  <text x="125" y="130" class="label">Digital AI</text>
+  <text x="125" y="155" class="label">(Virtual Environments)</text>
+
+  <!-- Arrow -->
+  <line x1="200" y1="140" x2="270" y2="140" class="arrow"/>
+
+  <!-- Transition -->
+  <text x="235" y="120" class="label" font-weight="bold">→</text>
+
+  <!-- Physical AI -->
+  <rect x="270" y="50" width="200" height="180" class="node"/>
+  <text x="370" y="90" class="label" font-weight="bold">Physical AI</text>
+  <text x="370" y="120" class="label">Sensing</text>
+  <text x="370" y="150" class="label">Decision-Making</text>
+  <text x="370" y="180" class="label">Actuation</text>
+  <text x="370" y="210" class="label">(Real World Interaction)</text>
+
+  <!-- Labels -->
+  <text x="125" y="220" class="label" font-style="italic">Perfect Information</text>
+  <text x="370" y="250" class="label" font-style="italic">Uncertainty, Noise, Physics</text>
+</svg>

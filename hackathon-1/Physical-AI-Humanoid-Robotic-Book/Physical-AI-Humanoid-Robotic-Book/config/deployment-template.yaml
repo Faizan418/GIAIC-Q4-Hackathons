@@ -1,0 +1,36 @@
+# Deployment Configuration Template
+
+# This template defines the configuration structure for different deployment environments
+# Copy this file to deployment.yaml and customize for your specific deployment
+
+environment: development  # development, staging, production
+
+backend:
+  host: localhost
+  port: 8000
+  debug: true
+  workers: 1
+  timeout: 30
+
+frontend:
+  host: localhost
+  port: 3000
+  build_dir: ./build
+
+database:
+  url: postgresql://localhost/dev_db
+  pool_size: 10
+  timeout: 30
+
+vector_database:
+  url: http://localhost:6333
+  collection_name: textbook_embeddings
+
+logging:
+  level: INFO
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+ci_cd:
+  pipeline_timeout: 600  # 10 minutes in seconds
+  rollback_enabled: true
+  notification_webhook: ""

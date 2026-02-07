@@ -1,0 +1,28 @@
+graph TD
+    A[Object Detection Results] --> B{Object Valid for Grasping?}
+    B -->|Yes| C[Object Pose Validation]
+    B -->|No| D[Skip to Next Object]
+    C --> E{Valid Grasp Pose Possible?}
+    E -->|Yes| F[Generate Grasp Candidates]
+    E -->|No| G[Mark Object as Ungraspable]
+    F --> H[Score Grasp Candidates]
+    H --> I{Best Grasp Score > Threshold?}
+    I -->|Yes| J[Select Best Grasp Pose]
+    I -->|No| K[Reject All Grasps]
+    J --> L[Send Grasp Command to Arm Controller]
+    K --> M[Consider Alternative Manipulation Strategy]
+    L --> N[Arm Execution]
+    N --> O{Grasp Successful?}
+    O -->|Yes| P[Object Successfully Grasped]
+    O -->|No| Q[Grasp Failure - Retry/Abort]
+    G --> R[Add to Ungraspable Objects List]
+    D --> S[Process Next Detected Object]
+    M --> T[Manipulation Strategy Decision]
+    Q --> U{Retry Allowed?}
+    U -->|Yes| F
+    U -->|No| V[Abort Manipulation Task]
+
+    style A fill:#e3f2fd
+    style P fill:#e8f5e8
+    style V fill:#ffebee
+    style J fill:#fff3e0

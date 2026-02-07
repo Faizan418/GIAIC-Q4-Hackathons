@@ -1,0 +1,61 @@
+graph TB
+    subgraph "Simulation Environment (Isaac Sim)"
+        A[Isaac Sim World] --> B[Robot Dynamics]
+        A --> C[Sensor Simulation]
+        A --> D[Physics Engine]
+    end
+
+    subgraph "Perception System"
+        C --> E[RGB-D Camera]
+        E --> F[Depth Processing]
+        E --> G[Object Detection]
+    end
+
+    subgraph "State Representation"
+        F --> H[Depth Image Processing]
+        G --> I[Object Pose Estimation]
+        H --> J[State Vector Formation]
+        I --> J
+    end
+
+    subgraph "RL Agent Architecture"
+        K[Actor-Critic Network] --> L[Actor Network]
+        K --> M[Critic Network]
+        L --> N[Action Distribution]
+        M --> O[Value Estimation]
+    end
+
+    subgraph "Training Loop"
+        J --> P[Experience Collection]
+        N --> P
+        P --> Q[Replay Buffer]
+        Q --> R[Batch Sampling]
+        R --> S[Policy Update]
+        S --> K
+        O --> S
+    end
+
+    subgraph "Simulation Control"
+        N --> T[Action Execution]
+        T --> B
+        T --> D
+    end
+
+    subgraph "Reward Calculation"
+        U[Task Completion] --> V[Reward Function]
+        I --> V
+        T --> V
+        V --> P
+    end
+
+    subgraph "Model Export Pipeline"
+        K --> W[Model Checkpointing]
+        W --> X[ONNX Export]
+        W --> Y[TensorRT Optimization]
+        X --> Z[Deployment Package]
+        Y --> Z
+    end
+
+    style A fill:#e1f5fe
+    style K fill:#f3e5f5
+    style Z fill:#e8f5e8

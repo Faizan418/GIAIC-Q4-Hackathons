@@ -1,0 +1,82 @@
+# Curriculum Integration Contract
+
+## Purpose
+This contract defines the integration points and dependencies between the Physical AI curriculum modules and the Reference, Capstone, and Conclusion chapters.
+
+## Dependencies Contract
+
+### Reference Chapter Dependencies
+The Reference chapter (04-Reference.md) depends on:
+- Previous modules (01-03) for foundational concepts
+- External frameworks: ROS 2, Gazebo, Unity, NVIDIA Isaac
+- Hardware/software configuration data
+
+### Capstone Chapter Dependencies
+The Capstone chapter (05-Capstone.md) depends on:
+- All previous modules (01-03) for implementation concepts
+- Reference chapter (04-Reference.md) for technical details
+- Integration of all curriculum concepts into a unified project
+
+### Conclusion Chapter Dependencies
+The Conclusion chapter (06-Conclusion.md) depends on:
+- All previous chapters (01-06) for curriculum summary
+- Future outlook from current state of technology
+
+## Interface Specifications
+
+### Content Interface
+- **Input**: Technical specifications from framework documentation
+- **Output**: Integrated reference materials with consistent terminology
+- **Format**: Markdown/MDX with Docusaurus frontmatter
+
+### Navigation Interface
+- **Input**: Sidebar position metadata
+- **Output**: Sequential navigation in documentation
+- **Format**: Docusaurus sidebar configuration
+
+### Knowledge Interface
+- **Input**: Concepts from previous modules
+- **Output**: Synthesized understanding in capstone project
+- **Format**: Integrated implementation guidance
+
+## Integration Points
+
+### Technical Framework Integration
+```
+ROS 2 Documentation → Reference Chapter → Capstone Implementation
+Gazebo Documentation → Reference Chapter → Capstone Implementation
+Unity Documentation → Reference Chapter → Capstone Implementation
+NVIDIA Isaac → Reference Chapter → Capstone Implementation
+VLA Systems → Reference Chapter → Capstone Implementation
+```
+
+### Curriculum Flow Integration
+```
+Module 1 (ROS2) → Module 2 (Digital Twin) → Module 3 (AI Robot Brain)
+    ↓
+Module 4 (VLA) → Reference → Capstone → Conclusion
+```
+
+## Validation Criteria
+
+### Content Validation
+- All referenced technical concepts must be accurately documented
+- Code examples must be consistent with framework versions
+- Configuration tables must match current best practices
+
+### Integration Validation
+- Cross-references between chapters must be accurate
+- Navigation flow must follow logical progression
+- Capstone project must integrate all previous concepts
+
+## Version Compatibility
+
+### Framework Versions
+- ROS 2: Humble Hawksbill or later
+- Gazebo: Garden or compatible simulation environment
+- Unity: 2022.3 LTS or later
+- NVIDIA Isaac: Current ROS packages
+
+### Curriculum Versions
+- Requires completion of modules 01-03 in sequence
+- Compatible with Docusaurus v3 documentation standards

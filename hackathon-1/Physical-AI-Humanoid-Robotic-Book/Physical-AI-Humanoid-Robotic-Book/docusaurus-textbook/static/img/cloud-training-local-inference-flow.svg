@@ -1,0 +1,49 @@
+<svg width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .node { fill: #e8f5e9; stroke: #388e3c; stroke-width: 2px; rx: 10px; ry: 10px; }
+    .title { font: bold 18px sans-serif; fill: #1b5e20; text-anchor: middle; }
+    .label { font: 14px sans-serif; fill: #1b5e20; text-anchor: middle; }
+    .arrow { stroke: #388e3c; stroke-width: 2px; marker-end: url(#arrowhead); }
+  </style>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7"
+      refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#388e3c" />
+    </marker>
+  </defs>
+
+  <!-- Cloud Training -->
+  <rect x="50" y="150" width="200" height="100" class="node"/>
+  <text x="150" y="180" class="label">Cloud Training</text>
+  <text x="150" y="200" class="label">(High Compute</text>
+  <text x="150" y="220" class="label">Environment)</text>
+
+  <!-- Model Transfer -->
+  <rect x="300" y="150" width="200" height="100" class="node"/>
+  <text x="400" y="180" class="label">Model Transfer</text>
+  <text x="400" y="200" class="label">&amp; Optimization</text>
+  <text x="400" y="220" class="label">(Compression)</text>
+
+  <!-- Local Inference -->
+  <rect x="550" y="150" width="200" height="100" class="node"/>
+  <text x="650" y="180" class="label">Local Inference</text>
+  <text x="650" y="200" class="label">(Edge Device</text>
+  <text x="650" y="220" class="label">Processing)</text>
+
+  <!-- Arrows -->
+  <line x1="250" y1="200" x2="300" y2="200" class="arrow"/>
+  <line x1="500" y1="200" x2="550" y2="200" class="arrow"/>
+
+  <!-- Labels for arrows -->
+  <text x="275" y="180" class="label">Trained</text>
+  <text x="275" y="200" class="label">Model</text>
+  <text x="525" y="180" class="label">Optimized</text>
+  <text x="525" y="200" class="label">Model</text>
+
+  <!-- Title -->
+  <text x="400" y="50" class="title">Cloud Training to Local Inference Flow</text>
+
+  <!-- Description -->
+  <text x="400" y="350" class="label">This flow shows how AI models are trained in cloud environments and deployed for local inference on edge devices</text>
+</svg>

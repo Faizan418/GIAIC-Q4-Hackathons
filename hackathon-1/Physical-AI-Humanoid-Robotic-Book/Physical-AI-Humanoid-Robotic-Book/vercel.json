@@ -1,0 +1,21 @@
+{
+  "framework": "docusaurus",
+  "builds": [
+    {
+      "src": "docusaurus-textbook/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "build"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
+  "github": {
+    "enabled": true
+  }
+}

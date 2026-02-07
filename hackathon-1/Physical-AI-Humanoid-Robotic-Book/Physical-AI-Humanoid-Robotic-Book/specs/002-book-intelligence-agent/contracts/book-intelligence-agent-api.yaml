@@ -1,0 +1,225 @@
+openapi: 3.0.3
+info:
+  title: Book Intelligence Agent API
+  description: API for the Book Intelligence Agent that answers questions based on book content
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000
+    description: Development server
+
+paths:
+  /api/query:
+    post:
+      summary: Query the Book Intelligence Agent
+      description: Ask a question about the book content with optional selected text snippet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+      responses:
+        '200':
+          description: Successful response from the Book Intelligence Agent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+        '400':
+          description: Bad request - invalid input parameters
+        '500':
+          description: Internal server error
+
+  /api/conversations:
+    post:
+      summary: Create a new conversation thread
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateConversationRequest'
+      responses:
+        '201':
+          description: Conversation thread created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConversationThread'
+        '500':
+          description: Internal server error
+
+  /api/conversations/{conversationId}:
+    get:
+      summary: Get conversation thread details
+      parameters:
+        - name: conversationId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Conversation thread details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConversationThread'
+        '404':
+          description: Conversation not found
+        '500':
+          description: Internal server error
+
+components:
+  schemas:
+    QueryRequest:
+      type: object
+      required:
+        - query
+      properties:
+        query:
+          type: string
+          description: The user's question about the book content
+          example: "What is the main theme of chapter 3?"
+        selected_snippet:
+          type: string
+          description: Optional user-selected text to prioritize in the response
+          example: "The main theme of this chapter is the relationship between technology and society..."
+        conversation_id:
+          type: string
+          format: uuid
+          description: Optional ID of the existing conversation thread
+        user_id:
+          type: string
+          format: uuid
+          description: Optional ID of the user
+
+    QueryResponse:
+      type: object
+      required:
+        - response
+        - was_answered_from_book
+        - context_used
+      properties:
+        response:
+          type: string
+          description: The agent's answer to the query
+          example: "The main theme of chapter 3 is the relationship between technology and society..."
+        citations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Citation'
+          description: List of citations with chapter/section information
+        was_answered_from_book:
+          type: boolean
+          description: Whether the information came from the book content
+          example: true
+        confidence_score:
+          type: number
+          format: float
+          minimum: 0.0
+          maximum: 1.0
+          description: Confidence level of the response
+          example: 0.85
+        context_used:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContextChunk'
+          description: The context chunks that informed the response
+
+    Citation:
+      type: object
+      properties:
+        chapter:
+          type: string
+          description: Chapter name or number
+          example: "Chapter 3"
+        section:
+          type: string
+          description: Section name or number
+          example: "3.2"
+        page:
+          type: integer
+          description: Page number (if available)
+          example: 45
+
+    ContextChunk:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the content chunk
+        text:
+          type: string
+          description: The text content that was used as context
+          example: "The main theme of this chapter is the relationship between technology and society..."
+        metadata:
+          type: object
+          description: Additional metadata like chapter, section, etc.
+        score:
+          type: number
+          format: float
+          minimum: 0.0
+          maximum: 1.0
+          description: Similarity score to the user's query
+          example: 0.92
+
+    CreateConversationRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Brief summary of the conversation topic
+          example: "Questions about Chapter 3 themes"
+
+    ConversationThread:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the conversation
+        title:
+          type: string
+          description: Brief summary of the conversation topic
+        created_at:
+          type: string
+          format: date-time
+          description: When the conversation was started
+        updated_at:
+          type: string
+          format: date-time
+          description: When the conversation was last updated
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConversationMessage'
+
+    ConversationMessage:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the message
+        role:
+          type: string
+          enum: [user, assistant]
+          description: Whether the message is from user or assistant
+        content:
+          type: string
+          description: The content of the message
+        timestamp:
+          type: string
+          format: date-time
+          description: When the message was created
+        context_used:
+          type: object
+          description: The context provided to the LLM for this response
+        citations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Citation'
+          description: Citations used in the response

@@ -1,0 +1,61 @@
+graph TB
+    subgraph "AI Robot Brain - Complete Architecture Overview"
+        subgraph "NVIDIA Isaac Platform Foundation"
+            A[Isaac Sim - High-Fidelity Simulation] --> B[Isaac ROS - GPU-Accelerated Perception]
+            A --> C[Synthetic Data Generation & Domain Randomization]
+            B --> D[ROS 2 Integration Layer]
+        end
+
+        subgraph "Perception Intelligence Layer"
+            E[RGB-D Sensing] --> F[Object Detection & Classification]
+            E --> G[3D Pose Estimation]
+            F --> H[Scene Understanding]
+            G --> H
+            H --> I[Perception-Action Bridge]
+        end
+
+        subgraph "Manipulation Intelligence Layer"
+            J[Grasp Planning & Evaluation] --> K[Inverse Kinematics]
+            L[Trajectory Planning] --> K
+            M[Arm Control & Execution] --> K
+            K --> N[Manipulation Sequences]
+        end
+
+        subgraph "Reinforcement Learning System"
+            O[RL Environment Setup] --> P[Policy Training in Simulation]
+            Q[Sim-to-Real Transfer] --> P
+            R[Safety Validation & Constraints] --> P
+            P --> S[Policy Deployment Pipeline]
+        end
+
+        subgraph "Integration & Control Hub"
+            T[Perception Pipeline] --> U[Intelligent Decision Making]
+            V[Manipulation Planning] --> U
+            W[RL Policy Execution] --> U
+            U --> X[Action Execution Layer]
+        end
+
+        subgraph "Real-World Interface"
+            Y[Sensor Fusion] --> Z[Real Robot Control]
+            AA[Feedback Processing] --> Z
+            Z --> AB[Performance Monitoring]
+        end
+    end
+
+    %% Connections between layers
+    B --> E
+    D --> J
+    D --> O
+    I --> J
+    I --> V
+    N --> T
+    S --> W
+    X --> Y
+    AB --> AA
+
+    %% Styling
+    style A fill:#4CAF50,stroke:#388E3C,color:#fff
+    style B fill:#2196F3,stroke:#0D47A1,color:#fff
+    style T fill:#FFC107,stroke:#FF8F00,color:#000
+    style U fill:#9C27B0,stroke:#6A1B9A,color:#fff
+    style Z fill:#E91E63,stroke:#AD1457,color:#fff
