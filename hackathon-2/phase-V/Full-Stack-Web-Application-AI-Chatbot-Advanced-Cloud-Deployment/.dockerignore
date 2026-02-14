@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+
+# Build outputs
+dist/
+build/
+.next/
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Environment variables (except example)
+.env*
+!.env.example
+
+# Git
+.git/
+.gitignore
+
+# Docker
+.dockerignore
+
+# SDD files
+.specify/
+.history/
+specs/

@@ -1,0 +1,11 @@
+## Example: Add Profile Picture URL
+
+### Modified Table: users
+```sql
+ALTER TABLE users ADD COLUMN avatar_url TEXT;
+ALTER TABLE users ADD COLUMN avatar_updated_at TIMESTAMPTZ;
+Migration Notes
+
+Existing users get null avatar_url
+Frontend falls back to initials avatar
+Add index if frequently queried

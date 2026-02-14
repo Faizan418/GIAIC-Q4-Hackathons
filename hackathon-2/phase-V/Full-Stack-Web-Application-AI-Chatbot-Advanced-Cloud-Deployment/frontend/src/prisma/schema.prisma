@@ -1,0 +1,96 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model alembic_version {
+  version_num String @id(map: "alembic_version_pkc") @db.VarChar(32)
+}
+
+model recurrencerule {
+  id                String                  @id @db.Uuid
+  frequency         recurrencefrequencyenum
+  interval          Int
+  end_condition     endconditionenum
+  occurrences_count Int?
+  end_date          DateTime?               @db.Timestamp(6)
+  task_id           String                  @db.Uuid
+  created_at        DateTime                @db.Timestamp(6)
+  task              task                    @relation(fields: [task_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model tag {
+  id      String    @id @db.Uuid
+  user_id String    @db.VarChar
+  name    String    @db.VarChar(50)
+  color   String    @db.VarChar
+  tasktag tasktag[]
+
+  @@index([user_id], map: "ix_tag_user_id")
+}
+
+model task {
+  id                 String           @id @db.Uuid
+  user_id            String           @db.VarChar
+  parent_id          String?          @db.Uuid
+  title              String           @db.VarChar(256)
+  description        String?          @db.VarChar
+  is_completed       Boolean
+  priority           priorityenum
+  due_date           DateTime?        @db.Timestamp(6)
+  recurrence_pattern String?          @db.VarChar
+  order_index        String           @db.VarChar
+  created_at         DateTime         @db.Timestamp(6)
+  updated_at         DateTime         @db.Timestamp(6)
+  recurrencerule     recurrencerule[]
+  task               task?            @relation("taskTotask", fields: [parent_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  other_task         task[]           @relation("taskTotask")
+  tasktag            tasktag[]
+
+  @@index([parent_id], map: "ix_task_parent_id")
+  @@index([user_id], map: "ix_task_user_id")
+}
+
+model tasktag {
+  task_id String @db.Uuid
+  tag_id  String @db.Uuid
+  tag     tag    @relation(fields: [tag_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  task    task   @relation(fields: [task_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([task_id, tag_id])
+}
+
+model user {
+  id              String   @id @db.Uuid
+  email           String   @unique(map: "ix_user_email") @db.VarChar
+  first_name      String?  @db.VarChar
+  last_name       String?  @db.VarChar
+  hashed_password String   @db.VarChar
+  is_active       Boolean
+  created_at      DateTime @db.Timestamp(6)
+  updated_at      DateTime @db.Timestamp(6)
+}
+
+enum endconditionenum {
+  AFTER_OCCURRENCES
+  ON_DATE
+  NEVER
+}
+
+enum priorityenum {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum recurrencefrequencyenum {
+  HOURLY
+  DAILY
+  WEEKLY
+  MONTHLY
+  YEARLY
+}

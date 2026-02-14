@@ -1,0 +1,285 @@
+# TaskApp API Contract
+
+## Overview
+API specification for the TaskApp application with authentication and task management functionality.
+
+## Base URL
+`http://localhost:8000/api` (development)
+`https://your-backend-domain.com/api` (production)
+
+## Authentication
+All authenticated endpoints require a valid JWT token in the Authorization header:
+```
+Authorization: Bearer <token>
+```
+
+## API Endpoints
+
+### Authentication
+
+#### POST /auth/signup
+Register a new user account
+
+**Request:**
+```json
+{
+  "email": "user@example.com",
+  "password": "SecurePassword123",
+  "name": "John Doe"
+}
+```
+
+**Response 201 Created:**
+```json
+{
+  "id": "uuid-string",
+  "email": "user@example.com",
+  "name": "John Doe",
+  "created_at": "2026-01-13T10:30:00Z"
+}
+```
+
+**Response 400 Bad Request:**
+```json
+{
+  "detail": "Email already registered"
+}
+```
+
+#### POST /auth/login
+Authenticate user and return session token
+
+**Request:**
+```json
+{
+  "email": "user@example.com",
+  "password": "SecurePassword123"
+}
+```
+
+**Response 200 OK:**
+```json
+{
+  "access_token": "jwt-token-string",
+  "token_type": "bearer",
+  "user": {
+    "id": "uuid-string",
+    "email": "user@example.com",
+    "name": "John Doe"
+  }
+}
+```
+
+**Response 401 Unauthorized:**
+```json
+{
+  "detail": "Invalid credentials"
+}
+```
+
+#### GET /auth/me
+Get current authenticated user
+
+**Response 200 OK:**
+```json
+{
+  "id": "uuid-string",
+  "email": "user@example.com",
+  "name": "John Doe",
+  "created_at": "2026-01-13T10:30:00Z"
+}
+```
+
+**Response 401 Unauthorized:**
+```json
+{
+  "detail": "Not authenticated"
+}
+```
+
+#### POST /auth/logout
+Logout the current user
+
+**Response 200 OK:**
+```json
+{
+  "message": "Successfully logged out"
+}
+```
+
+### Tasks
+
+#### GET /tasks
+Retrieve all tasks for the authenticated user
+
+**Query Parameters:**
+- `status`: Filter by status (pending, in-progress, completed)
+- `limit`: Number of tasks to return (default: 10, max: 100)
+- `offset`: Number of tasks to skip (default: 0)
+- `order_by`: Field to sort by (created_at, updated_at, due_date) (default: created_at)
+- `direction`: Sort direction (asc, desc) (default: desc)
+
+**Response 200 OK:**
+```json
+{
+  "tasks": [
+    {
+      "id": "uuid-string",
+      "title": "Complete project",
+      "description": "Finish the TaskApp implementation",
+      "status": "pending",
+      "due_date": "2026-01-20T10:00:00Z",
+      "created_at": "2026-01-13T09:00:00Z",
+      "updated_at": "2026-01-13T09:00:00Z",
+      "user_id": "user-uuid-string"
+    }
+  ],
+  "total": 1,
+  "limit": 10,
+  "offset": 0
+}
+```
+
+#### POST /tasks
+Create a new task for the authenticated user
+
+**Request:**
+```json
+{
+  "title": "Complete project",
+  "description": "Finish the TaskApp implementation",
+  "status": "pending",
+  "due_date": "2026-01-20T10:00:00Z"
+}
+```
+
+**Response 201 Created:**
+```json
+{
+  "id": "uuid-string",
+  "title": "Complete project",
+  "description": "Finish the TaskApp implementation",
+  "status": "pending",
+  "due_date": "2026-01-20T10:00:00Z",
+  "created_at": "2026-01-13T09:00:00Z",
+  "updated_at": "2026-01-13T09:00:00Z",
+  "user_id": "user-uuid-string"
+}
+```
+
+**Response 400 Bad Request:**
+```json
+{
+  "detail": "Title is required and must be less than 200 characters"
+}
+```
+
+#### GET /tasks/{id}
+Retrieve a specific task by ID
+
+**Response 200 OK:**
+```json
+{
+  "id": "uuid-string",
+  "title": "Complete project",
+  "description": "Finish the TaskApp implementation",
+  "status": "pending",
+  "due_date": "2026-01-20T10:00:00Z",
+  "created_at": "2026-01-13T09:00:00Z",
+  "updated_at": "2026-01-13T09:00:00Z",
+  "user_id": "user-uuid-string"
+}
+```
+
+**Response 404 Not Found:**
+```json
+{
+  "detail": "Task not found"
+}
+```
+
+#### PUT /tasks/{id}
+Update a specific task by ID
+
+**Request:**
+```json
+{
+  "title": "Complete TaskApp project",
+  "description": "Finish the TaskApp implementation with authentication",
+  "status": "in-progress",
+  "due_date": "2026-01-25T10:00:00Z"
+}
+```
+
+**Response 200 OK:**
+```json
+{
+  "id": "uuid-string",
+  "title": "Complete TaskApp project",
+  "description": "Finish the TaskApp implementation with authentication",
+  "status": "in-progress",
+  "due_date": "2026-01-25T10:00:00Z",
+  "created_at": "2026-01-13T09:00:00Z",
+  "updated_at": "2026-01-13T10:00:00Z",
+  "user_id": "user-uuid-string"
+}
+```
+
+**Response 404 Not Found:**
+```json
+{
+  "detail": "Task not found"
+}
+```
+
+#### PATCH /tasks/{id}/complete
+Toggle the completion status of a task
+
+**Request:**
+```json
+{
+  "status": "completed"
+}
+```
+
+**Response 200 OK:**
+```json
+{
+  "id": "uuid-string",
+  "title": "Complete project",
+  "description": "Finish the TaskApp implementation",
+  "status": "completed",
+  "due_date": "2026-01-20T10:00:00Z",
+  "created_at": "2026-01-13T09:00:00Z",
+  "updated_at": "2026-01-13T11:00:00Z",
+  "user_id": "user-uuid-string"
+}
+```
+
+#### DELETE /tasks/{id}
+Delete a specific task by ID
+
+**Response 204 No Content:**
+
+**Response 404 Not Found:**
+```json
+{
+  "detail": "Task not found"
+}
+```
+
+## Error Responses
+
+All error responses follow the same structure:
+
+```json
+{
+  "detail": "Human-readable error message"
+}
+```
+
+## Data Types
+
+- **UUID**: String representation of UUID (e.g., "123e4567-e89b-12d3-a456-426614174000")
+- **DateTime**: ISO 8601 formatted date-time string (e.g., "2026-01-13T10:30:00Z")
+- **Status**: Enum: "pending", "in-progress", "completed"

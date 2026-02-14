@@ -1,0 +1,148 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+.venv/
+env.bak/
+venv.bak/
+.python-version
+
+# Builds
+build/
+dist/
+*.egg
+*.egg-info/
+.installed.cfg
+*.egg-info/
+
+# Environment
+.env*
+.env
+.env.local
+.env.*.local
+.envrc
+.env.localrc
+.secrets
+
+# Testing
+.coverage
+coverage/
+htmlcov/
+.nyc_output
+.pytest_cache/
+.hypothesis/
+.venv/
+.eggs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.vs/
+.atom/
+
+# OS
+.DS_Store
+Thumbs.db
+.DS_Store?
+ehthumbs.db
+Icon?
+desktop.ini
+*.log
+
+# Backend specific
+*.log
+*.sqlite
+.local
+logs/
+__pypackages__/
+
+# Frontend specific
+.next/
+out/
+.nuxt/
+public/build/
+.nx/
+
+# Database
+*.db
+*.db-journal
+.sqlite
+
+# Secrets
+secrets/
+*.key
+*.pem
+*.crt
+*.cert
+*.secret
+
+# Local development
+.debug/
+*.local
+.settings/
+
+# Coverage
+coverage.xml
+lcov.info
+
+# Documentation
+docs/_build/
+
+# Distribution / packaging
+.sass-cache/
+.wafpickle-N/
+*.so
+.libs/
+.pybuild/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Editor
+.idea/
+*.tmproj
+nbproject/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Temporary folders
+tmp/
+temp/
+*.tmp
+
+# System
+Thumbs.db
+.DS_Store
+desktop.ini
+$RECYCLE.BIN/
+
+# Alembic
+alembic_version/
+
+# FastAPI
+uvicorn_access.log
+uvicorn_error.log
+
+# Better Auth
+.better-auth/
